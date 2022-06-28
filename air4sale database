@@ -1,0 +1,44 @@
+CREATE TABLE 
+air4sale
+(id INTEGER PRIMARY KEY AUTOINCREMENT, 
+name TEXT, 
+size INTEGER, 
+weight INTEGER, 
+focus TEXT, 
+magic_ability TEXT,
+price TEXT);
+
+INSERT INTO
+
+air4sale
+
+(name, size, weight, focus, magic_ability, price)
+
+VALUES
+
+('Crispy Air', 10, 7.6, '+19', 'Float', '$124'),
+('Thin Air', 17, 14.2, '+6', 'Hover', '$156'),
+('Crunchy Air', 12, 6.8, '+19', 'Swim', '$335'),
+('Slim Air', 43, 17, '+3', 'None', '$411'),
+('Righteous Air', 7, '4.2', '+80', 'Allfather', '$345'),
+('Smokey Air', 92, 54, '+10', 'Concentrate', '$198'),
+('Phat Air', 18, 32, '+6', 'Sit', '$998'),
+('Holy Air', 42, 18, '+3', 'Faith', '$165'),
+('Strained Air', 13, 13, '-1.3', 'Storm', '$444'),
+('Thai Air', 18, 14.2, '+9.9', 'Manpower', '$575'),
+('High Air', 1, 1, '+7', 'Longrange', '$550'),
+('Mountain Air', .25, .25, '+8', 'Breath', '$350'),
+('Dolly Air', 36, 24, '+3.6', 'Jolene', '$1050'),
+('Quiet Air', 1, 1, '+3', 'Stealth', '$175'),
+('Loud Air', 3, 16, '+4.8', 'Bang', '$475');
+
+
+--DISPLAY THE DATABASE ORDERED BY PRICE.
+
+SELECT * FROM air4sale 
+ORDER BY price desc;
+
+--DISPLAY THE DATABASE WITH PRODUCT WEIGHTS OVER 18 ORDERED BY PRICE.
+SELECT * FROM air4sale 
+WHERE weight > 18
+ORDER BY price desc;
