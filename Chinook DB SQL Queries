@@ -1,0 +1,165 @@
+//Show Customers (their full names, customer ID, and country) who are not in the US.//
+;
+
+SELECT * FROM customers;
+
+SELECT firstname, lastname, customerid, country
+FROM customers
+WHERE country <> 'USA'
+ORDER BY customerid
+;
+
+
+//Show only the Customers from Brazil//
+;
+
+SELECT * FROM customers
+WHERE country LIKE 'brazil'
+;
+
+
+//Find the Invoices of customers who are from Brazil. The resulting table should show the customerfull name, Invoice ID, Date of the invoice, and billing country//;
+
+
+SELECT * FROM invoices;
+SELECT * FROM customers;
+
+SELECT a.InvoiceID, a.InvoiceDate, a.BillingCountry, b.FirstName, b.LastName
+FROM invoices a
+LEFT JOIN customers b
+ON a.CustomerId = b.CustomerId
+WHERE country LIKE 'brazil'
+;
+
+//Show the Employees who are Sales Agents//;
+
+SELECT * FROM employees;
+
+SELECT LastName, FirstName, Title
+FROM employees
+WHERE Title LIKE '%sales support agent%'
+;
+
+//Find a unique/distinct list of billing countries from the Invoice table//;
+
+SELECT * FROM invoices;
+
+SELECT DISTINCT BillingCountry
+FROM invoices
+;
+
+//Provide a query that shows the invoices associated with each sales agent. The resulting table should include the Sales Agentfull name.//;
+
+
+SELECT * FROM employees;
+SELECT * FROM customers;
+SELECT * FROM invoices;
+
+
+SELECT a.Title, a.FirstName, a.LastName,c.InvoiceID
+FROM employees a
+LEFT JOIN customers b
+ON a.EmployeeId = b.SupportRepId
+LEFT JOIN invoices c
+ON b.CustomerId = c.CustomerId
+WHERE a.EmployeeId = '3' OR
+a.EmployeeId = '4' OR
+a.EmployeeId = '5'
+; 
+
+//Show the Invoice Total, Customer name, Country, and Sales Agent name for all invoices and customers//;
+
+SELECT * FROM invoices;
+SELECT * FROM customers;
+SELECT * FROM employees;
+
+SELECT a.Total AS Invoice_Total, b.FirstName AS Cust_Fst_Nm, b.LastName AS Cust_Lst_Nm, b.Country, c.FirstName AS Agnt_Fst_Nm, c.LastName AS Agnt_Lst_Nm
+FROM invoices a
+JOIN customers b
+ON a.CustomerId = b.CustomerId
+LEFT JOIN employees c
+ON b.SupportRepId = c.EmployeeId
+;
+
+//How many Invoices were there in 2009?//;
+
+SELECT * FROM invoices;
+
+SELECT COUNT(InvoiceID)
+FROM invoices
+WHERE InvoiceDate LIKE '2009%'
+;
+
+//What are the total sales for 2009//;
+
+SELECT * FROM invoices;
+
+SELECT SUM(Total)
+FROM invoices
+WHERE InvoiceDate LIKE '2009%'
+;
+
+//Write a query that includes the purchased track name with each invoice line ID.//;
+
+SELECT * FROM invoices;
+SELECT * FROM invoice_items;
+SELECT * FROM tracks;
+
+SELECT b.Name, a.InvoiceLineId
+FROM invoice_items a
+LEFT JOIN tracks b
+ON a.TrackId = b.TrackId
+ORDER BY a.InvoiceLineId asc
+;
+
+//Provide a query that shows all the Tracks, and include the Album name, Media type, and Genre.//;
+
+SELECT * FROM tracks;
+SELECT * FROM albums;
+SELECT * FROM media_types;
+SELECT * FROM genres;
+
+SELECT a.Name AS Track_Name, b.Title AS Album_Title, c.Name AS Media_Type, d.GenreId AS Genre
+FROM tracks a
+LEFT JOIN albums b
+ON a.AlbumId = b.AlbumId
+LEFT JOIN media_types c
+ON a.MediaTypeId = c.MediaTypeId
+LEFT JOIN genres d
+ON a.GenreId = d. GenreId
+ORDER BY Genre
+;
+
+//Show the total sales made by each sales agent.//;
+
+SELECT * FROM customers;
+SELECT * FROM invoices;
+SELECT * FROM employees;
+
+
+SELECT c.FirstName, c.LastName, SUM(b.Total) AS Total_Sales
+FROM customers a
+LEFT JOIN invoices b
+ON a.CustomerId = b.CustomerId
+LEFT JOIN employees c
+ON a.SupportRepId = c.EmployeeId
+GROUP BY c.FirstName
+;
+
+//Which sales agent made the most dollars in sales in 2009?//;
+
+SELECT * FROM customers;
+SELECT * FROM invoices;
+SELECT * FROM employees;
+
+
+SELECT c.FirstName, c.LastName, SUM(b.Total) AS Total_Sales
+FROM customers a
+LEFT JOIN invoices b
+ON a.CustomerId = b.CustomerId
+LEFT JOIN employees c
+ON a.SupportRepId = c.EmployeeId
+WHERE b.InvoiceDate LIKE '2009%'
+GROUP BY c.FirstName
+ORDER BY Total_Sales DESC LIMIT 1
+;
